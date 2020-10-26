@@ -1,0 +1,12 @@
+{
+  "name": "trial-tracker",
+  "displayName": "trial-tracker",
+  "expo": {
+    "name": "trial-tracker",
+    "slug": "trial-tracker",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
