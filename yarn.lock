@@ -6269,6 +6269,11 @@
   "resolved" "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz"
   "version" "4.1.1"
 
+"lodash.toarray@^4.4.0":
+  "integrity" "sha1-JMS/zWsvuji/0FlNsRedjptlZWE="
+  "resolved" "https://registry.npmjs.org/lodash.toarray/-/lodash.toarray-4.4.0.tgz"
+  "version" "4.4.0"
+
 "lodash.uniqby@^4.7.0":
   "integrity" "sha1-2ZwHpmnp5tJOE2Lf4mbGdhavEwI="
   "resolved" "https://registry.npmjs.org/lodash.uniqby/-/lodash.uniqby-4.7.0.tgz"
@@ -6979,6 +6984,13 @@
   dependencies:
     "chalk" "^1.1.1"
     "lodash" "^4.2.0"
+
+"node-emoji@1.10.0":
+  "integrity" "sha512-Yt3384If5H6BYGVHiHwTL+99OzJKHhgp82S8/dktEK73T26BazdgZ4JZh92xSVtGNJvz9UbXdNAc5hcrXV42vw=="
+  "resolved" "https://registry.npmjs.org/node-emoji/-/node-emoji-1.10.0.tgz"
+  "version" "1.10.0"
+  dependencies:
+    "lodash.toarray" "^4.4.0"
 
 "node-fetch@^1.0.1":
   "integrity" "sha512-NhZ4CsKx7cYm2vSrBAr2PvFOe6sWDf0UYLRqA6svUYg7+/TSfVAu49jYC4BvQ4Sms9SZgdqGBgroqfDhJdTyKQ=="
@@ -7726,6 +7738,13 @@
     "react-native-ratings" "^7.3.0"
     "react-native-size-matters" "^0.3.1"
     "react-native-status-bar-height" "^2.5.0"
+
+"react-native-emoji@^1.8.0":
+  "integrity" "sha512-VunKOtYes6eymyWwE7QS3mhmNXksTt2AN92PcGRtmDKLDPjuKrwd5tcJckFUekAK3H+6AMpwYy30CsiCJrDdFQ=="
+  "resolved" "https://registry.npmjs.org/react-native-emoji/-/react-native-emoji-1.8.0.tgz"
+  "version" "1.8.0"
+  dependencies:
+    "node-emoji" "1.10.0"
 
 "react-native-gesture-handler@^1.7.0", "react-native-gesture-handler@>= 1.5.0":
   "integrity" "sha512-1CrjJf8Z6Iz2XWzfZknYtsm2sud5Lu/pLhhokkgBIKttxqGDtetDEVFDJOTJWJyKCrUPk0X5tnWi/diSF4q++w=="
