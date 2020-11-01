@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import * as GoogleSignIn from 'expo-google-sign-in';
 import { Text, View, StyleSheet } from 'react-native';
 import { Button } from 'react-native-elements';
-import { GoogleSigninButton } from 'react-native-google-signin';
+//import { GoogleSigninButton } from 'react-native-google-signin';
 import * as firebase from 'firebase';
 import Emoji from 'react-native-emoji';
 
@@ -50,7 +50,6 @@ export default class Auth extends React.Component {
   };
 
   onPress = () => {
-    console.log('bbb');
     if (this.state.user) {
       this.signOutAsync();
     } else {

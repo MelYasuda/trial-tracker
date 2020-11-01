@@ -14,7 +14,6 @@ class Loading extends React.Component {
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
-      console.log(user);
       if(user){
         const resetAction =StackActions.reset({
           index: 0,

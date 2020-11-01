@@ -420,9 +420,6 @@ PODS:
     - React
   - RNGestureHandler (1.7.0):
     - React
-  - RNGoogleSignin (2.1.1):
-    - GoogleSignIn (~> 5.0.0)
-    - React
   - RNReanimated (1.13.1):
     - React
   - RNScreens (2.10.1):
@@ -512,7 +509,6 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
-  - RNGoogleSignin (from `../node_modules/react-native-google-signin`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - UMAppLoader (from `../node_modules/unimodules-app-loader/ios`)
@@ -642,8 +638,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/masked-view"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
-  RNGoogleSignin:
-    :path: "../node_modules/react-native-google-signin"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -744,7 +738,6 @@ SPEC CHECKSUMS:
   ReactCommon: 4167844018c9ed375cc01a843e9ee564399e53c3
   RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
   RNGestureHandler: b6b359bb800ae399a9c8b27032bdbf7c18f08a08
-  RNGoogleSignin: 6baed9bb19c9c54614bef63bdc55c381b4e33c44
   RNReanimated: dd8c286ab5dd4ba36d3a7fef8bff7e08711b5476
   RNScreens: b748efec66e095134c7166ca333b628cd7e6f3e2
   UMAppLoader: 5db5dc03176c6238da9c8b3657a370137882a4ad
