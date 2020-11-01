@@ -59,7 +59,7 @@ class Trials extends Component {
             ListEmptyComponent={this.showEmptyListView()}
             renderItem={({ item, index }) => (
               <Trial 
-              item={item.title}
+              item={item}
               ></Trial>
             )}
           />

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Text, Alert, View, StyleSheet } from 'react-native';
+import { Animated, Text, Alert, View, StyleSheet } from 'react-native';
+import { RectButton } from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 
 class Trial extends Component {
@@ -9,18 +10,38 @@ class Trial extends Component {
     };          
   }
   
+  renderLeftActions = (progress, dragX) => {
+    const trans = dragX.interpolate({
+    inputRange: [0, 50, 100, 101],
+    outputRange: [-20, 0, 0, 1],
+    });
+    return (
+      <RectButton style={styles.rightAction} onPress={this.close}>
+         <Animated.Text
+          style={[
+            styles.actionText,
+            {
+              transform: [{ translateX: trans }],
+            },
+          ]}>
+          Archive
+          </Animated.Text>
+      </RectButton>
+    );
+  }
+  
   render() {
     return (
-      <View>
-              <Text style={{
-                fontSize: 30,
-                color: "gray",
-                marginLeft: 20,
-                marginRight: 10,
-                paddingBottom: 10,
-                paddingTop: 10
-              }}>{this.props.item.title}</Text>
-        </View>
+      <Swipeable　renderRightActions={this.renderLeftActions}>
+        <Text style={{
+          fontSize: 30,
+          color: "gray",
+          marginLeft: 20,
+          marginRight: 10,
+          paddingBottom: 10,
+          paddingTop: 10
+        }}>{this.props.item.title}</Text>
+      </Swipeable>
     );
   }
 }
@@ -33,5 +54,17 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     flex: 1,
     width: "100%"
-  }
+  },
+  actionText: {
+    color: 'white',
+    fontSize: 16,
+    backgroundColor: 'red',
+    padding: 10,
+  },
+  rightAction: {
+    // alignItems: 'center',
+    // flex: 1,
+    // justifyContent: 'center',
+    paddingRight: -10
+  },
 });
