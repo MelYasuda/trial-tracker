@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, Alert, View, StyleSheet, FlatList, ScrollView } from 'react-native';
 import { Button } from 'react-native-elements';
-import { Trial } from './Trial';
+import Trial from './Trial';
 import * as firebase from 'firebase';
 
 class Trials extends Component {
@@ -58,9 +58,9 @@ class Trials extends Component {
             keyExtractor={(item, index) => Math.random().toString()}
             ListEmptyComponent={this.showEmptyListView()}
             renderItem={({ item, index }) => (
-              <Text 
+              <Trial 
               item={item.title}
-              ></Text>
+              ></Trial>
             )}
           />
         </View>
