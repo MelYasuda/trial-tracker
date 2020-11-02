@@ -11,9 +11,9 @@ class Trial extends Component {
   }
   
   renderLeftActions = (progress, dragX) => {
-    const trans = dragX.interpolate({
-    inputRange: [0, 50, 100, 101],
-    outputRange: [-20, 0, 0, 1],
+    const trans = progress.interpolate({
+      inputRange: [0, 1],
+      outputRange: [64, 0],
     });
     return (
       <RectButton style={styles.rightAction} onPress={this.close}>
@@ -24,7 +24,7 @@ class Trial extends Component {
               transform: [{ translateX: trans }],
             },
           ]}>
-          Archive
+          Done
           </Animated.Text>
       </RectButton>
     );
@@ -32,15 +32,25 @@ class Trial extends Component {
   
   render() {
     return (
-      <Swipeable　renderRightActions={this.renderLeftActions}>
-        <Text style={{
-          fontSize: 30,
-          color: "gray",
-          marginLeft: 20,
-          marginRight: 10,
-          paddingBottom: 10,
-          paddingTop: 10
-        }}>{this.props.item.title}</Text>
+      <Swipeable
+        renderRightActions={this.renderLeftActions}
+        friction={2}
+        rightThreshold={40}
+        >
+        <View 
+          style={{
+            borderBottomWidth :0.3,
+            borderBottomColor: 'white'
+            }}>
+          <Text style={{
+            fontSize: 40,
+            color: "gray",
+            marginLeft: 20,
+            marginRight: 10,
+            paddingBottom: 10,
+            paddingTop: 10,
+          }}>{this.props.item.title}</Text>
+        </View>
       </Swipeable>
     );
   }
@@ -50,7 +60,6 @@ export default Trial;
 
 const styles = StyleSheet.create({
   container: {
-    //height: '100%',
     backgroundColor: 'black',
     flex: 1,
     width: "100%"
@@ -62,9 +71,8 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   rightAction: {
-    // alignItems: 'center',
-    // flex: 1,
-    // justifyContent: 'center',
-    paddingRight: -10
+     // alignItems: 'center',
+     // flex: 1,
+     //justifyContent: 'center',
   },
 });
