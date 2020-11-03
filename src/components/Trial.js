@@ -40,16 +40,11 @@ class Trial extends Component {
         <View 
           style={{
             borderBottomWidth :0.3,
-            borderBottomColor: 'white'
+            borderBottomColor: 'rgba(255,0,0,0.3)',
+            flexDirection:'row'
             }}>
-          <Text style={{
-            fontSize: 40,
-            color: "gray",
-            marginLeft: 20,
-            marginRight: 10,
-            paddingBottom: 10,
-            paddingTop: 10,
-          }}>{this.props.item.title}</Text>
+          <Text style={styles.trialText}>{this.props.item.title}</Text>
+          <Text style={styles.dateText}>{this.props.item.end_date}</Text>
         </View>
       </Swipeable>
     );
@@ -64,11 +59,27 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%"
   },
+  trialText: {
+    fontSize: 40,
+    color: "gray",
+    marginLeft: 20,
+    marginRight: 10,
+    paddingBottom: 10,
+    paddingTop: 10,
+  },
+  dateText: {
+    fontSize: 20,
+    color: "gray",
+    textAlign: "right",
+    paddingTop: 20,
+    flex: 1,
+    paddingRight: 10
+  },
   actionText: {
     color: 'white',
-    fontSize: 16,
+    fontSize: 20,
     backgroundColor: 'red',
-    padding: 10,
+    padding: 20,
   },
   rightAction: {
      // alignItems: 'center',
