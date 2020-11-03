@@ -10,13 +10,17 @@ class Trial extends Component {
     };          
   }
   
+  handleComplete = () => {
+    Alert.alert('tete');
+  }
+  
   renderLeftActions = (progress, dragX) => {
     const trans = progress.interpolate({
       inputRange: [0, 1],
       outputRange: [64, 0],
     });
     return (
-      <RectButton style={styles.rightAction} onPress={this.close}>
+      <RectButton style={styles.rightAction} onPress={this.handleComplete}>
          <Animated.Text
           style={[
             styles.actionText,
@@ -61,6 +65,7 @@ const styles = StyleSheet.create({
   },
   trialText: {
     fontSize: 40,
+    fontWeight: "200",
     color: "gray",
     marginLeft: 20,
     marginRight: 10,
@@ -69,6 +74,7 @@ const styles = StyleSheet.create({
   },
   dateText: {
     fontSize: 20,
+    fontWeight: "200",
     color: "gray",
     textAlign: "right",
     paddingTop: 20,

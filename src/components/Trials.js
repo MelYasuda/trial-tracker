@@ -40,7 +40,7 @@ class Trials extends Component {
           <Text style={{
             fontSize: 30,
             color: "white",
-            fontWeight: "bold",
+            fontWeight: "300",
             paddingLeft: 30
           }}>Trials</Text>
           <FlatList
@@ -135,6 +135,7 @@ const styles = StyleSheet.create({
     fontSize: 35,
     color: "orange",
     textAlign: "right",
-    paddingRight: 20
+    paddingRight: 20,
+    fontWeight: "200"
   }
 });
