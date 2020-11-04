@@ -11,7 +11,7 @@ class Trial extends Component {
   }
   
   handleComplete = () => {
-    Alert.alert('tete');
+    this.props.handleComplete();
   }
   
   renderLeftActions = (progress, dragX) => {

@@ -3,8 +3,33 @@ import { Text, Alert, View, StyleSheet, FlatList, ScrollView } from 'react-nativ
 import { Button } from 'react-native-elements';
 import Trial from './Trial';
 import * as firebase from 'firebase';
+import firestore from '@react-native-firebase/firestore';
+
 
 class Trials extends Component {
+
+    componentDidMount(){
+      this.getUsersTrialsListId().then((id)=> { console.log(id) });
+    }
+    
+    getUsersTrialsListId = () => {
+      return new Promise ((resolve, reject) => {
+
+        firebase.auth().onAuthStateChanged( user => {
+          if(user){
+            const currentUid = user.uid;
+            let data = firestore()
+                      .collection('users')
+                      .doc(currentUid)
+                      .onSnapshot( result => {
+                        console.log(result);
+                      });
+            console.log(data);
+          }
+        } )
+      })
+    }
+  
   _handleLogout = () => {
     firebase.auth().signOut().then(()=> {
       // const {dispatch} = this.props;
@@ -12,6 +37,10 @@ class Trials extends Component {
     }).catch(function(error) {
       //Alert.alert(error)
     });
+  }
+  
+  _handleComplete = () => {
+    Alert.alert('grgr');
   }
   
   showEmptyListView = () => {
@@ -44,74 +73,12 @@ class Trials extends Component {
             paddingLeft: 30
           }}>Trials</Text>
           <FlatList
-            //extraData={this.state}
-            data={[
-            {
-              id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-              title: 'First Item',
-              end_date: '8/16/20'
-            },
-            {
-              id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-              title: 'Second Item',
-              end_date: '8/17/20'
-            },
-            {
-              id: '58694a0f-3da1-471f-bd96-145571e29d72',
-              title: 'Third Item',
-              end_date: '8/18/20'
-            },
-            {
-              id: '58694a0f-3da1-471f-bd96-145571e29d74',
-              title: 'Fourth Item',
-              end_date: '8/19/20'
-            },
-            {
-              id: '58694a0f-3da1-471f-bd96-145571e29d75',
-              title: 'Fifth Item',
-              end_date: '8/20/20'
-            },
-            {
-              id: '58694a0f-3da1-471f-bd96-145571e29d76',
-              title: 'Sixth Item',
-              end_date: '8/21/20'
-            },
-            {
-              id: '58694a0f-3da1-471f-bd96-145571e29d77',
-              title: 'Seventh Item',
-              end_date: '8/22/20'
-            },
-            {
-              id: '58694a0f-3da1-471f-bd96-145571e29d78',
-              title: 'Eighth Item',
-              end_date: '8/23/20'
-            },
-            {
-              id: '58694a0f-3da1-471f-bd96-145571e29d79',
-              title: 'Nineth Item',
-              end_date: '8/24/20'
-            },
-            {
-              id: '58694a0f-3da1-471f-bd96-145571e29d80',
-              title: 'Tenth Item',
-              end_date: '8/25/20'
-            },
-            {
-              id: '58694a0f-3da1-471f-bd96-145571e29d81',
-              title: 'Eleventh Item',
-              end_date: '8/26/20'
-            },
-            {
-              id: '58694a0f-3da1-471f-bd96-145571e29d82',
-              title: 'Twelveth Item',
-              end_date: '8/27/20'
-            },
-            
-          ]}
+            data={data}
             keyExtractor={(item, index) => Math.random().toString()}
             ListEmptyComponent={this.showEmptyListView()}
             renderItem={({ item, index }) => (
               <Trial 
+              handleComplete={this._handleComplete}
               item={item}
               ></Trial>
             )}
@@ -123,6 +90,70 @@ class Trials extends Component {
 }
 
 export default Trials;
+
+const data = [
+{
+  id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+  title: 'First Item',
+  end_date: '8/16/20'
+},
+{
+  id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+  title: 'Second Item',
+  end_date: '8/17/20'
+},
+{
+  id: '58694a0f-3da1-471f-bd96-145571e29d72',
+  title: 'Third Item',
+  end_date: '8/18/20'
+},
+{
+  id: '58694a0f-3da1-471f-bd96-145571e29d74',
+  title: 'Fourth Item',
+  end_date: '8/19/20'
+},
+{
+  id: '58694a0f-3da1-471f-bd96-145571e29d75',
+  title: 'Fifth Item',
+  end_date: '8/20/20'
+},
+{
+  id: '58694a0f-3da1-471f-bd96-145571e29d76',
+  title: 'Sixth Item',
+  end_date: '8/21/20'
+},
+{
+  id: '58694a0f-3da1-471f-bd96-145571e29d77',
+  title: 'Seventh Item',
+  end_date: '8/22/20'
+},
+{
+  id: '58694a0f-3da1-471f-bd96-145571e29d78',
+  title: 'Eighth Item',
+  end_date: '8/23/20'
+},
+{
+  id: '58694a0f-3da1-471f-bd96-145571e29d79',
+  title: 'Nineth Item',
+  end_date: '8/24/20'
+},
+{
+  id: '58694a0f-3da1-471f-bd96-145571e29d80',
+  title: 'Tenth Item',
+  end_date: '8/25/20'
+},
+{
+  id: '58694a0f-3da1-471f-bd96-145571e29d81',
+  title: 'Eleventh Item',
+  end_date: '8/26/20'
+},
+{
+  id: '58694a0f-3da1-471f-bd96-145571e29d82',
+  title: 'Twelveth Item',
+  end_date: '8/27/20'
+},
+
+];
 
 const styles = StyleSheet.create({
   container: {
