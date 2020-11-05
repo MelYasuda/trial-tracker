@@ -14,7 +14,16 @@ class Trial extends Component {
     this.props.handleComplete();
   }
   
-  renderLeftActions = (progress, dragX) => {
+  convertUnixTime = () => {
+    let fullDate = new Date(this.props.item._data.end_date.seconds * 1000);
+    let year = fullDate.getFullYear() - 2000;
+    let month = fullDate.getMonth() + 1;
+    let date = fullDate.getDate();
+
+    return month + '/' + date + '/' + year;
+  }
+  
+  renderRightActions = (progress, dragX) => {
     const trans = progress.interpolate({
       inputRange: [0, 1],
       outputRange: [64, 0],
@@ -37,7 +46,7 @@ class Trial extends Component {
   render() {
     return (
       <Swipeable
-        renderRightActions={this.renderLeftActions}
+        renderRightActions={this.renderRightActions}
         friction={2}
         rightThreshold={40}
         >
@@ -47,8 +56,8 @@ class Trial extends Component {
             borderBottomColor: 'rgba(255,0,0,0.3)',
             flexDirection:'row'
             }}>
-          <Text style={styles.trialText}>{this.props.item.title}</Text>
-          <Text style={styles.dateText}>{this.props.item.end_date}</Text>
+          <Text style={styles.trialText}>{this.props.item._data.title}</Text>
+          <Text style={styles.dateText}>{this.convertUnixTime()}</Text>
         </View>
       </Swipeable>
     );

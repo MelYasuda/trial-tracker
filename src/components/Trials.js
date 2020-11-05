@@ -7,9 +7,16 @@ import firestore from '@react-native-firebase/firestore';
 
 
 class Trials extends Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        trials: null,
+        isLoading: true
+      };
+    }
 
     componentDidMount(){
-      this.getUsersTrialsListId().then((id)=> { console.log(id) });
+      this.getUsersTrialsListId().then(this.getUsersTrialsList).then(this.setUsersTrialsList);
     }
     
     getUsersTrialsListId = () => {
@@ -18,15 +25,42 @@ class Trials extends Component {
         firebase.auth().onAuthStateChanged( user => {
           if(user){
             const currentUid = user.uid;
-            let data = firestore()
-                      .collection('users')
-                      .doc(currentUid)
-                      .onSnapshot( result => {
-                        console.log(result);
-                      });
-            console.log(data);
+            firestore()
+            .collection('users')
+            .doc(currentUid)
+            .onSnapshot( result => {
+              if(result) {
+                resolve(result._data.trialsListId);
+              } else {
+                Alert.alert('Sorry, the app is crashed. Please close and open it again');
+              }
+            });
           }
-        } )
+        })
+      })
+    }
+    
+    getUsersTrialsList = (trialsListId) => {
+      return new Promise ((resolve, reject) => {
+            firestore()
+            .collection('trialsList')
+            .doc(trialsListId)
+            .collection('trial')
+            .orderBy('end_date')
+            .onSnapshot( result => {
+              if(result) {
+                resolve(result.docs);
+              } else {
+                Alert.alert('Sorry, the app is crashed. Please close and open it again.');
+              }
+            });
+      })
+    }
+    
+    setUsersTrialsList = (trials) => {
+      this.setState({
+        trials: trials,
+        isLoading: false
       })
     }
   
@@ -40,13 +74,22 @@ class Trials extends Component {
   }
   
   _handleComplete = () => {
-    Alert.alert('grgr');
+    firestore()
+      .collection('trialsList')
+      .doc('NzXkoaR852CRjfVNJLna')
+      .collection('trial')
+      .doc('uPoHUZFU15jLaztswWit')
+      .delete()
+      .then(() => {
+        this.getUsersTrialsList('NzXkoaR852CRjfVNJLna').then(this.setUsersTrialsList);
+        console.log('User deleted!');
+      });
   }
   
   showEmptyListView = () => {
     return(
       <View>
-        <Text>
+        <Text style={{color: 'white'}}>
           You don't have trials to track yet
         </Text>
       </View>
@@ -73,7 +116,7 @@ class Trials extends Component {
             paddingLeft: 30
           }}>Trials</Text>
           <FlatList
-            data={data}
+            data={this.state.trials}
             keyExtractor={(item, index) => Math.random().toString()}
             ListEmptyComponent={this.showEmptyListView()}
             renderItem={({ item, index }) => (
@@ -90,70 +133,6 @@ class Trials extends Component {
 }
 
 export default Trials;
-
-const data = [
-{
-  id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-  title: 'First Item',
-  end_date: '8/16/20'
-},
-{
-  id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-  title: 'Second Item',
-  end_date: '8/17/20'
-},
-{
-  id: '58694a0f-3da1-471f-bd96-145571e29d72',
-  title: 'Third Item',
-  end_date: '8/18/20'
-},
-{
-  id: '58694a0f-3da1-471f-bd96-145571e29d74',
-  title: 'Fourth Item',
-  end_date: '8/19/20'
-},
-{
-  id: '58694a0f-3da1-471f-bd96-145571e29d75',
-  title: 'Fifth Item',
-  end_date: '8/20/20'
-},
-{
-  id: '58694a0f-3da1-471f-bd96-145571e29d76',
-  title: 'Sixth Item',
-  end_date: '8/21/20'
-},
-{
-  id: '58694a0f-3da1-471f-bd96-145571e29d77',
-  title: 'Seventh Item',
-  end_date: '8/22/20'
-},
-{
-  id: '58694a0f-3da1-471f-bd96-145571e29d78',
-  title: 'Eighth Item',
-  end_date: '8/23/20'
-},
-{
-  id: '58694a0f-3da1-471f-bd96-145571e29d79',
-  title: 'Nineth Item',
-  end_date: '8/24/20'
-},
-{
-  id: '58694a0f-3da1-471f-bd96-145571e29d80',
-  title: 'Tenth Item',
-  end_date: '8/25/20'
-},
-{
-  id: '58694a0f-3da1-471f-bd96-145571e29d81',
-  title: 'Eleventh Item',
-  end_date: '8/26/20'
-},
-{
-  id: '58694a0f-3da1-471f-bd96-145571e29d82',
-  title: 'Twelveth Item',
-  end_date: '8/27/20'
-},
-
-];
 
 const styles = StyleSheet.create({
   container: {
