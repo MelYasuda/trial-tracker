@@ -10,6 +10,7 @@ class Trials extends Component {
     constructor(props) {
       super(props);
       this.state = {
+        trialsListId: null,
         trials: null,
         isLoading: true
       };
@@ -49,7 +50,11 @@ class Trials extends Component {
             .orderBy('end_date')
             .onSnapshot( result => {
               if(result) {
-                resolve(result.docs);
+                let results = {
+                  trials: result.docs,
+                  trialsListId: trialsListId          
+                }
+                resolve(results);
               } else {
                 Alert.alert('Sorry, the app is crashed. Please close and open it again.');
               }
@@ -59,7 +64,8 @@ class Trials extends Component {
     
     setUsersTrialsList = (trials) => {
       this.setState({
-        trials: trials,
+        trialsListId: trials.trialsListId,
+        trials: trials.trials,
         isLoading: false
       })
     }
@@ -73,15 +79,15 @@ class Trials extends Component {
     });
   }
   
-  _handleComplete = () => {
+  _handleComplete = (trialId) => {
     firestore()
       .collection('trialsList')
-      .doc('NzXkoaR852CRjfVNJLna')
+      .doc(this.state.trialsListId)
       .collection('trial')
-      .doc('uPoHUZFU15jLaztswWit')
+      .doc(trialId)
       .delete()
       .then(() => {
-        this.getUsersTrialsList('NzXkoaR852CRjfVNJLna').then(this.setUsersTrialsList);
+        this.getUsersTrialsList(this.state.trialsListId).then(this.setUsersTrialsList);
         console.log('User deleted!');
       });
   }

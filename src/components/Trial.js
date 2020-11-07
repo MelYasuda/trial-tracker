@@ -10,8 +10,8 @@ class Trial extends Component {
     };          
   }
   
-  handleComplete = () => {
-    this.props.handleComplete();
+  handleComplete = (trialId) => {
+    this.props.handleComplete(trialId);
   }
   
   convertUnixTime = () => {
@@ -26,10 +26,10 @@ class Trial extends Component {
   renderRightActions = (progress, dragX) => {
     const trans = progress.interpolate({
       inputRange: [0, 1],
-      outputRange: [64, 0],
+      outputRange: [85, 0],
     });
     return (
-      <RectButton style={styles.rightAction} onPress={this.handleComplete}>
+      <RectButton style={styles.rightAction} onPress={() => this.handleComplete(this.props.item._ref._documentPath._parts[3])}>
          <Animated.Text
           style={[
             styles.actionText,
