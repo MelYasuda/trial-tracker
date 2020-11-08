@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Text, Alert, View, StyleSheet, FlatList, ScrollView } from 'react-native';
 import { Button } from 'react-native-elements';
 import Trial from './Trial';
+import AddEditModal from './AddEditModal';
 import * as firebase from 'firebase';
 import firestore from '@react-native-firebase/firestore';
 
@@ -111,10 +112,7 @@ class Trials extends Component {
           flexDirection: "column",
           paddingTop: 50,
         }}>
-        <Text 
-        onPress={this._handleLogout}  
-        style={styles.addIcon}>+</Text>
-
+          <AddEditModal />
           <Text style={{
             fontSize: 30,
             color: "white",
