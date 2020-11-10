@@ -4,6 +4,7 @@ import { Formik, useFormikContext } from 'formik';
 import * as Yup from 'yup';
 import { Input, Button } from 'react-native-elements';
 import CalendarPicker from 'react-native-calendar-picker';
+import moment from 'moment';
 
 const DatePickerField = ({ name, onDateChange }) => {
   const formik = useFormikContext();
@@ -40,13 +41,17 @@ export default class TrialForm extends Component {
       });
     }
     
+    dateParse = (date) => {
+      return date[1] + ' ' + date[2] + ', ' + date[3];
+    }
+    
     render() {
       const { selectedStartDate } = this.state;
       const startDate = selectedStartDate ? selectedStartDate.toString() : '';
       return (
         <View>
           <Formik 
-            initialValues={{ title: '', startDate: '', duration: '', endDate: '', note: ''}}
+            initialValues={{ title: '', startDate: moment(), duration: '', endDate: '', note: ''}}
             onSubmit={this._handleSubmit}
             validationSchema={Yup.object().shape({
               title: Yup.string().required('Chore description is required'),
@@ -64,8 +69,9 @@ export default class TrialForm extends Component {
                 <Text onPress={handleSubmit} style={{color: "orange", textAlign: "right"}}>Save</Text>
                 <Input
                   placeholder='trial name'
-                  style={{backgroundColor: 'white'}}
+                  //style={{backgroundColor: 'white'}}
                 />
+                <Text style={{color: "white"}}>Starts {this.dateParse(values.startDate.toString().split(' '))} </Text>
                 <DatePickerField 
                   name={'startDate'}
                   onDateChange={this.onDateChange} />
