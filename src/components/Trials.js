@@ -6,7 +6,6 @@ import AddEditModal from './AddEditModal';
 import * as firebase from 'firebase';
 import firestore from '@react-native-firebase/firestore';
 
-
 class Trials extends Component {
     constructor(props) {
       super(props);
@@ -18,6 +17,7 @@ class Trials extends Component {
     }
 
     componentDidMount(){
+      console.log('hello');
       this.getUsersTrialsListId().then(this.getUsersTrialsList).then(this.setUsersTrialsList);
     }
     
@@ -33,8 +33,6 @@ class Trials extends Component {
             .onSnapshot( result => {
               if(result) {
                 resolve(result._data.trialsListId);
-              } else {
-                Alert.alert('Sorry, the app is crashed. Please close and open it again');
               }
             });
           }
@@ -56,8 +54,6 @@ class Trials extends Component {
                   trialsListId: trialsListId          
                 }
                 resolve(results);
-              } else {
-                Alert.alert('Sorry, the app is crashed. Please close and open it again.');
               }
             });
       })
@@ -73,6 +69,7 @@ class Trials extends Component {
   
   _handleLogout = () => {
     firebase.auth().signOut().then(()=> {
+      console.log('logout');
       // const {dispatch} = this.props;
       // dispatch({type: 'USER_LOGOUT'})
     }).catch(function(error) {
@@ -103,6 +100,22 @@ class Trials extends Component {
     );
   }
   
+  　addTrial = (values) => {
+    firestore()
+      .collection('trialsList')
+      .doc(this.state.trialsListId)
+      .collection('trial')
+      .add({
+        end_date: values.endDate,
+        title: values.title,
+        note: values.note
+      })
+      .then((value) => {
+        this.getUsersTrialsList(this.state.trialsListId).then(this.setUsersTrialsList);
+        console.log('User deleted!');
+      });
+  }
+  
   render() {
     return (
       <View style={styles.container}>
@@ -112,7 +125,9 @@ class Trials extends Component {
           flexDirection: "column",
           paddingTop: 50,
         }}>
-          <AddEditModal />
+          <AddEditModal
+            　addTrial={this.addTrial}
+           />
           <Text style={{
             fontSize: 30,
             color: "white",
@@ -130,6 +145,7 @@ class Trials extends Component {
               ></Trial>
             )}
           />
+          <Button onPress={this._handleLogout} title='hello' />
         </View>
       </View>
     );

@@ -4,9 +4,13 @@ import Modal from 'react-native-modal';
 import TrialForm from './TrialForm';
 
 export default class AddEditModal extends Component {
-  state = {
-    isModalVisible: false,
-  };
+  
+  constructor(props) {
+    super(props);
+    this.state = {
+      isModalVisible: false,
+    };
+  }
  
   toggleModal = () => {
     this.setState({isModalVisible: !this.state.isModalVisible});
@@ -28,7 +32,9 @@ export default class AddEditModal extends Component {
         >
           <View style={{height: "100%"}}>
             <Text style={styles.cancelButton} onPress={this.toggleModal}>Cancel</Text>
-            <TrialForm />
+            <TrialForm
+              addTrial={this.props.addTrial}
+             />
           </View>
         </Modal>
       </View>

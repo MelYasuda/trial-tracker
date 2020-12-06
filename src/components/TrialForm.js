@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, View, StyleSheet, Easing, TouchableOpacity } from 'react-native';
+import {Text, View, StyleSheet, Easing, TouchableOpacity, TextInput, ScrollView } from 'react-native';
 import { Formik, useFormikContext } from 'formik';
 import * as Yup from 'yup';
 import { Input, Button } from 'react-native-elements';
@@ -16,13 +16,18 @@ const DatePickerField = ({ name, onDateChange }) => {
       backgroundColor: 'white',
     }}>
     <CalendarPicker
-      onDateChange={onDateChange}
+      //onDateChange={onDateChange}
       selectedDayColor="#66ff33"
       selectedDayTextColor="#000000"
       previousTitle="<"
       nextTitle=">"
       value={field.value}
-      onDateChange={value => formik.setFieldValue(name, value)}
+      onDateChange={value => 
+        {
+          onDateChange();
+          formik.setFieldValue(name, value)
+        }
+      }
     />
     </View>
   );
@@ -39,10 +44,18 @@ export default class TrialForm extends Component {
       };
     }
     
-    onDateChange = (date) => {
+    onStartDateChange = (date) => {
+      console.log('ddd');
       this.setState({
         selectedStartDate: date,
       });
+    }
+    
+    onEndDateChange = (date) => {
+      console.log('ccc');
+      // this.setState({
+      //   selectedStartDate: date,
+      // });
     }
     
     dateParse = (date) => {
@@ -64,6 +77,11 @@ export default class TrialForm extends Component {
         </View>
       );
     };
+    
+    setDuration = duration => {
+      console.log(duration);
+      
+    }
 
   _openStartingDate = startingDateActive => {
     this.setState({ startingDateActive: startingDateActive, endingDateActive: [] });
@@ -72,26 +90,30 @@ export default class TrialForm extends Component {
   _openEndingDate = endingDateActive => {
     this.setState({ endingDateActive:  endingDateActive, startingDateActive: []});
   };
+  
+  _handleSubmit = (values) => {
+    this.props.addTrial(values);
+  }
     
     render() {
       const { selectedStartDate } = this.state;
       const startDate = selectedStartDate ? selectedStartDate.toString() : '';
       return (
-        <View>
+        <ScrollView>
           <Formik 
-            initialValues={{ title: '', startDate: moment(), duration: '', endDate: moment(), note: ''}}
+            initialValues={{ title: '', startDate: moment(), duration: '30', endDate: moment(), note: ''}}
             onSubmit={this._handleSubmit}
-            validationSchema={Yup.object().shape({
-              title: Yup.string().required('Chore description is required'),
-              endDate: Yup.string().required('Day needs to be chosen')
-            })}
+            // validationSchema={Yup.object().shape({
+            //   title: Yup.string().required('Chore description is required'),
+            //   endDate: Yup.string().required('Day needs to be chosen')
+            // })}
           >
           {props => (
             <View>
               <Text onPress={props.handleSubmit} style={{color: "orange", textAlign: "right"}}>Save</Text>
               <Input
                 placeholder='trial name'
-                //style={{backgroundColor: 'white'}}
+                style={{color: 'white'}}
               />
               <Accordion
                 activeSections={this.state.startingDateActive}
@@ -104,10 +126,24 @@ export default class TrialForm extends Component {
                   title: this.dateParse(props.values.startDate.toString().split(' ')),
                   content: <DatePickerField 
                             name={'startDate'}
-                            onDateChange={this.onDateChange} />
-                },
-              ]}
+                            onDateChange={this.onStartDateChange} />
+                  },
+                ]}
               />
+              <TextInput 
+                style={{color: 'white'}}
+                keyboardType = 'numeric'
+                onChangeText={ 
+                  (e) => {
+                    (() => {
+                      props.values.endDate = moment(props.values.startDate).add(e, 'days');
+                    })();
+                    props.handleChange('duration')(e);  
+                }}
+                
+                value={props.values.duration}
+                name='duration'
+              /> 
               <Accordion
                 activeSections={this.state.endingDateActive}
                 renderHeader={this._renderHeader}
@@ -116,19 +152,24 @@ export default class TrialForm extends Component {
                 duration={500}
                 touchableComponent={TouchableOpacity}
                 sections={[{
-                  title: this.dateParse(props.values.startDate.toString().split(' ')),
+                  title: this.dateParse(props.values.endDate.toString().split(' ')),
                   content: <DatePickerField 
                             name={'endDate'}
-                            onDateChange={this.onDateChange} />
+                            onDateChange={this.onEndDateChange} />
                 },
               ]}
               />
-              <Text style={{color: 'white'}}>hello</Text>
+              <TextInput
+                style={{color: 'white'}}
+                onChangeText={props.handleChange('note')}
+                value={props.values.note}
+                name='note'
+               />
             </ View>
           )}
 
             </ Formik>
-        </View>
+        </ScrollView>
         
         
         
